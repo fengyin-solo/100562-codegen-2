@@ -24,6 +24,37 @@
       </span>
     </p>
 
+    <section class="violation-todo-panel">
+      <h3>用热稽查追补待算 <em class="todo-count">{{ violationTodos.length }}</em></h3>
+      <p class="page-desc">
+        违规用热案件作出处理决定后，追补热费的办结结果会从用热稽查台账落到这里，受理后即成为追补待核算结算单。
+      </p>
+      <table class="data-table" v-if="violationTodos.length">
+        <thead>
+          <tr><th>待办编号</th><th>来源卷宗</th><th>用户名称</th><th>案由</th><th>追补金额</th><th>计量记录</th><th>办结日期</th><th>状态</th></tr>
+        </thead>
+        <tbody>
+          <tr v-for="todo in violationTodos" :key="todo.id">
+            <td>{{ todo.todoNo }}</td>
+            <td>
+              <RouterLink class="link" to="/heatviolation">{{ todo.caseNo }}</RouterLink>
+            </td>
+            <td>{{ todo.customer }}</td>
+            <td>{{ todo.reason }}</td>
+            <td>{{ todo.recoveryHeatFee > 0 ? todo.recoveryHeatFee + ' 元' : '不追补（备查）' }}</td>
+            <td>{{ todo.meterRecordNo || '—' }}</td>
+            <td>{{ todo.resolvedAt }}</td>
+            <td>
+              <span :class="['status-badge', todo.acceptedAt ? 'badge-resolved' : 'badge-active']">
+                {{ todo.acceptedAt ? '已受理' : '待受理' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-else class="empty-state">暂无稽查追补待办。</p>
+    </section>
+
     <form class="filter-bar" @submit.prevent="reload">
       <label v-for="field in filterFields" :key="field" class="filter-item">
         <span>{{ field }}</span>
@@ -79,6 +110,7 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import { listBillingTodos } from '@/api/violation-service'
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('heatbilling')
@@ -92,6 +124,7 @@ const total = ref(0)
 const errorMessage = ref('')
 const filters = ref<Record<string, string>>({})
 const filterFields = columns.slice(0, 3)
+const violationTodos = ref(listBillingTodos())
 const statusSummary = computed(() =>
   statuses.map((status: string) => ({
     status,
@@ -128,6 +161,7 @@ function reload() {
     const payload = listEntries(meta.key, filters.value)
     rows.value = payload.items
     total.value = payload.total
+    violationTodos.value = listBillingTodos()
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : '热费结算列表读取失败'
   }

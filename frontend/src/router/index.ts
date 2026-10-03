@@ -19,6 +19,7 @@ const Compensator = () => import('@/views/compensator/index.vue')
 const Heatnotice = () => import('@/views/heatnotice/index.vue')
 const Heatbilling = () => import('@/views/heatbilling/index.vue')
 const Householdservice = () => import('@/views/householdservice/index.vue')
+const Heatviolation = () => import('@/views/heatviolation/index.vue')
 
 const router = createRouter({
   history: createWebHistory(),
@@ -42,6 +43,7 @@ const router = createRouter({
     { path: '/heatnotice', name: 'heatnotice', component: Heatnotice },
     { path: '/heatbilling', name: 'heatbilling', component: Heatbilling },
     { path: '/householdservice', name: 'householdservice', component: Householdservice },
+    { path: '/heatviolation', name: 'heatviolation', component: Heatviolation },
   ],
 })
 
