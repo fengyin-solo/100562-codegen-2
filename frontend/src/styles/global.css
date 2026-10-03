@@ -35,3 +35,85 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .error-text { color: #b42318; }
 .status-legend { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 10px; font-size: 12px; color: var(--muted); }
 .legend-item { background: #eef2f7; border-radius: 999px; padding: 2px 10px; }
+
+/* 用热稽查台账 */
+.drill-switch { display: inline-flex; align-items: center; gap: 6px; background: #fdf3e3; color: #92510c; border-radius: 999px; padding: 2px 10px; cursor: pointer; }
+.stat-card.warn { border-color: #d9a441; background: #fffaf0; }
+.stat-card.warn .stat-value { color: #b45309; }
+.draft-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; background: #fef3f2; border: 1px solid #f2c0bd; color: #912018; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; font-size: 13px; }
+.draft-chip { color: #b42318; text-decoration: none; border: 1px solid #e7b5b0; border-radius: 999px; padding: 1px 10px; background: #fff; }
+.draft-chip:hover { background: #fde7e5; }
+.todo-banner { background: #eef6ff; border: 1px solid #b9d6f7; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; font-size: 13px; }
+.todo-banner a { color: #1f6feb; font-weight: 600; text-decoration: none; }
+.status-badge { border-radius: 999px; padding: 2px 10px; font-size: 12px; white-space: nowrap; }
+.status-badge.b-open { background: #e8f0fe; color: #1a56c4; }
+.status-badge.b-suspend { background: #fdf3e3; color: #b45309; }
+.status-badge.b-done { background: #e7f6ec; color: #147a3c; }
+tr.closed td { color: var(--muted); background: #fafbfc; }
+tr.suspended { background: #fffaf0; }
+.missing-tag { color: #b45309; background: #fdf3e3; border-radius: 4px; padding: 1px 6px; font-size: 12px; white-space: nowrap; }
+
+.stage-track { list-style: none; display: flex; align-items: center; gap: 0; padding: 0; margin: 4px 0 14px; }
+.stage-node { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #94a3b8; }
+.stage-dot { width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: #e5e9f0; color: #64748b; font-size: 12px; }
+.stage-name { padding: 0 6px; }
+.stage-arrow { color: #cbd5e1; padding: 0 10px; }
+.stage-node.done .stage-dot { background: #147a3c; color: #fff; }
+.stage-node.done .stage-name { color: #147a3c; }
+.stage-node.done .stage-arrow { color: #147a3c; }
+.stage-node.active .stage-dot { background: var(--brand); color: #fff; }
+.stage-node.active .stage-name { color: var(--brand); font-weight: 600; }
+
+.form-banner { border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; font-size: 13px; }
+.form-banner.error { background: #fef3f2; border: 1px solid #f2c0bd; color: #912018; }
+.form-banner.warn { background: #fdf3e3; border: 1px solid #ecc98a; color: #92510c; }
+.form-banner.info { background: #eef6ff; border: 1px solid #b9d6f7; color: #1a56c4; }
+.form-banner.done { background: #e7f6ec; border: 1px solid #aedcc2; color: #147a3c; }
+.banner-sub { display: block; margin-top: 2px; font-size: 12px; opacity: 0.85; }
+
+.entry-form { display: flex; flex-wrap: wrap; gap: 10px 14px; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+.entry-form.inset { background: #f9fafc; }
+.form-item { display: flex; flex-direction: column; gap: 3px; flex: 1 1 200px; font-size: 12px; color: var(--muted); }
+.form-item.wide { flex-basis: 100%; }
+.form-item input, .form-item select, .form-item textarea { font-size: 13px; color: #1f2937; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; }
+.basis-hint { color: #1a56c4; }
+.form-foot { flex-basis: 100%; display: flex; align-items: center; gap: 10px; }
+.submit-bar { margin-top: 6px; }
+.hint-text { font-size: 12px; color: var(--muted); }
+
+.panels { display: flex; flex-direction: column; gap: 12px; }
+.stage-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.stage-panel h3 { margin: 0 0 8px; font-size: 14px; }
+.stage-panel.locked { opacity: 0.75; background: #f8fafc; }
+.readonly-grid { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.readonly-grid p { margin: 0; flex: 1 1 220px; font-size: 13px; }
+.readonly-grid p.wide { flex-basis: 100%; }
+.readonly-grid label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 1px; }
+
+.sub-table { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+.sub-table th, .sub-table td { border: 1px solid var(--border); padding: 5px 8px; font-size: 12px; text-align: left; }
+.sub-table input { width: 100%; border: 1px solid transparent; padding: 3px 4px; font-size: 12px; border-radius: 4px; font-family: inherit; }
+.sub-table input:focus { border-color: var(--brand); outline: none; background: #fff; }
+.sign-cell { white-space: nowrap; color: #147a3c; }
+.sub-title { font-size: 13px; font-weight: 600; margin: 8px 0 6px; }
+.meter-block { flex-basis: 100%; border-top: 1px dashed var(--border); padding-top: 8px; margin-bottom: 8px; }
+
+.case-title-sub { font-size: 14px; color: var(--muted); font-weight: 400; }
+.log-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-top: 12px; }
+.log-panel h3 { margin: 0 0 8px; font-size: 14px; }
+.log-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.log-list li { font-size: 12px; color: #334155; }
+.log-at { color: var(--muted); margin-right: 8px; }
+.log-detail { margin: 0 6px; }
+.log-op { color: var(--muted); }
+
+.reason-tag { color: #1a56c4; }
+.reason-code { color: var(--muted); font-size: 11px; margin-left: 4px; }
+.link.dim { color: var(--muted); }
+
+.audit-todo-block { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+.audit-todo-block h3 { margin: 0 0 8px; font-size: 14px; color: #1a56c4; }
+.btn.small { padding: 3px 10px; font-size: 12px; }
+tr.pushed td { color: var(--muted); background: #fafbfc; }
+.pushed-tag { color: #147a3c; font-size: 12px; white-space: nowrap; }
+tr.fromAudit td:first-child { border-left: 3px solid #1f6feb; }

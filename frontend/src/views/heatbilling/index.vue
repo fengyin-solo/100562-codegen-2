@@ -11,6 +11,39 @@
       </div>
     </header>
 
+    <!-- 用热稽查办结后落到这里的待办：含追补的处理决定各生成一条 -->
+    <section class="audit-todo-block">
+      <h3>稽查追补待办（违规用热案件办结转入）</h3>
+      <table v-if="todos.length" class="data-table">
+        <thead>
+          <tr>
+            <th>案件编号</th><th>当事人</th><th>地址</th><th>决定书编号</th>
+            <th>追补金额(元)</th><th>计量记录</th><th>决定日期</th><th>办理</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="t in todos" :key="t.id" :class="{ pushed: t.pushed }">
+            <td>{{ t.caseNo }}</td>
+            <td>{{ t.userName }}</td>
+            <td>{{ t.userAddress }}</td>
+            <td>{{ t.docNo }}</td>
+            <td>{{ t.recoveryAmount }}</td>
+            <td>{{ t.meterSummary }}</td>
+            <td>{{ t.decidedAt }}</td>
+            <td>
+              <button v-if="!t.pushed" class="btn small primary" type="button" @click="pushTodo(t.id)">
+                转热费结算单
+              </button>
+              <span v-else class="pushed-tag">已转 {{ t.refNo }}（待核算）</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-else class="empty-state">暂无稽查追补待办</p>
+    </section>
+
+    <p v-if="todoMessage" class="form-banner" :class="todoOk ? 'info' : 'error'">{{ todoMessage }}</p>
+
     <div class="stat-row">
       <article v-for="item in stats" :key="item.label" class="stat-card">
         <span class="stat-label">{{ item.label }}</span>
@@ -42,7 +75,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in rows" :key="String(row.id)">
+        <tr v-for="row in rows" :key="String(row.id)" :class="{ fromAudit: !!row.案件编号 }">
           <td v-for="column in columns" :key="column">{{ row[column] ?? '—' }}</td>
           <td>{{ row.status }}</td>
           <td class="row-actions">
@@ -79,6 +112,8 @@ import {
   moduleMeta,
   runAction as applyAction,
 } from '@/api/local-service'
+import { listTodos, pushTodoToBilling } from '@/audit/audit-service'
+import type { BillingTodo } from '@/audit/types'
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('heatbilling')
@@ -92,6 +127,9 @@ const total = ref(0)
 const errorMessage = ref('')
 const filters = ref<Record<string, string>>({})
 const filterFields = columns.slice(0, 3)
+const todos = ref<BillingTodo[]>([])
+const todoMessage = ref('')
+const todoOk = ref(true)
 const statusSummary = computed(() =>
   statuses.map((status: string) => ({
     status,
@@ -112,6 +150,14 @@ function openCreate() {
   errorMessage.value = '热费结算单登记入口尚未接入审批流'
 }
 
+function pushTodo(id: number) {
+  const result = pushTodoToBilling(id)
+  todoOk.value = result.ok
+  todoMessage.value = result.message
+  reloadTodos()
+  reload()
+}
+
 function runAction(action: string, row: EntryRow) {
   errorMessage.value = ''
   const result = applyAction(meta.key, Number(row.id), action)
@@ -120,6 +166,10 @@ function runAction(action: string, row: EntryRow) {
     return
   }
   reload()
+}
+
+function reloadTodos() {
+  todos.value = listTodos()
 }
 
 function reload() {
@@ -133,5 +183,8 @@ function reload() {
   }
 }
 
-onMounted(reload)
+onMounted(() => {
+  reloadTodos()
+  reload()
+})
 </script>

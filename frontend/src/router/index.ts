@@ -19,6 +19,10 @@ const Compensator = () => import('@/views/compensator/index.vue')
 const Heatnotice = () => import('@/views/heatnotice/index.vue')
 const Heatbilling = () => import('@/views/heatbilling/index.vue')
 const Householdservice = () => import('@/views/householdservice/index.vue')
+const HeatAudit = () => import('@/views/heataudit/index.vue')
+const HeatAuditCreate = () => import('@/views/heataudit/create.vue')
+const HeatAuditCase = () => import('@/views/heataudit/case.vue')
+const HeatAuditSurvey = () => import('@/views/heataudit/survey.vue')
 
 const router = createRouter({
   history: createWebHistory(),
@@ -42,6 +46,10 @@ const router = createRouter({
     { path: '/heatnotice', name: 'heatnotice', component: Heatnotice },
     { path: '/heatbilling', name: 'heatbilling', component: Heatbilling },
     { path: '/householdservice', name: 'householdservice', component: Householdservice },
+    { path: '/audit', name: 'heataudit', component: HeatAudit },
+    { path: '/audit/new', name: 'audit-create', component: HeatAuditCreate },
+    { path: '/audit/case/:id', name: 'audit-case', component: HeatAuditCase },
+    { path: '/audit/survey', name: 'audit-survey', component: HeatAuditSurvey },
   ],
 })
 
